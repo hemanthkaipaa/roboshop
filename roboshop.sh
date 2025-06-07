@@ -1,0 +1,7 @@
+#!/bin/bash
+
+AMI_ID="ami-09c813fb71547fc4f"
+SG_ID="sg-0c30101d8120551f5"
+ZONE_ID=
+DOMAIN_NAME=
+INSTANCES=()
