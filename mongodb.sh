@@ -13,9 +13,9 @@ N="\e[0m"
 #checking rootuser
 IS_ROOT_USER(){
     if [ $(id -u) == 0 ]; then
-        echo -e "$G Running as root user $N" | tee -a $LOG_FILE
+        echo -e "$G Running as root user $N"
     else
-        echo -e "$R Permission denied, Not a Root user $N" | tee -a $LOG_FILE
+        echo -e "$R Permission denied, Not a Root user $N"
         exit 1
     fi
 }
@@ -47,6 +47,7 @@ CONFIGURE_MONGODB_AND_RESTART(){
 }
 
 IS_ROOT_USER
+mkdir -p $LOG_DIR
 # mongodb repo file is created explicitly and copying to /etc/yum.repos.d/mongodb.repo
 cp mongodb.repo /etc/yum.repos.d/mongodb.repo
 INSTALL_MONGODB
