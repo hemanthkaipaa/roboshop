@@ -30,9 +30,19 @@ VALIDATE_STATUS(){
     fi
 }
 
+#Is App Exist
+IS_EXIST(){
+    if [ $? == 0 ] ; then
+        echo -e "$G $1 already installed exiting $N" | tee -a $LOG_FILE
+        exit 1
+    else 
+        echo -e "$R $1 not installed $N" | tee -a $LOG_FILE
+    fi
+}
+
 VALIDATE_AND_INSTALL_MONGODB(){
     dnf search mongodb-org
-    VALIDATE_STATUS "mongodb"
+    IS_EXIST "mongodb"
     dnf install mongodb-org -y  &>>$LOG_FILE
     VALIDATE_STATUS "mongodb Install"
     systemctl enable mongod | tee -a $LOG_FILE
