@@ -43,7 +43,7 @@ mkdir -p /app
 VALIDATE_STATUS "creating app directory"
 
 id roboshop &>>$LOG_FILE
-if [ $? !=0 ]; then
+if [ $? != 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "system user" roboshop
     VALIDATE_STATUS "creating system user"
 else
