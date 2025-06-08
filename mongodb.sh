@@ -41,8 +41,7 @@ IS_EXIST(){
 }
 
 VALIDATE_AND_INSTALL_MONGODB(){
-    dnf search mongodb-org &>>$LOG_FILE
-    IS_EXIST "mongodb"
+
     dnf install mongodb-org -y  &>>$LOG_FILE
     VALIDATE_STATUS "mongodb Install"
     systemctl enable mongod | tee -a $LOG_FILE
