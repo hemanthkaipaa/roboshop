@@ -70,5 +70,5 @@ VALIDATE_STATUS "catalog start"
 cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongodb.repo
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE_STATUS "install mongo shell" 
-mongosh --host mongodb.hkdevops.site </app/db/master-data.js
+mongosh --host mongodb.hkdevops.site </app/db/master-data.js &>>$LOG_FILE
 VALIDATE_STATUS "mongo shell master data loaded" 
