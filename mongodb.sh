@@ -52,9 +52,9 @@ VALIDATE_AND_INSTALL_MONGODB(){
 CONFIGURE_MONGODB_AND_RESTART(){
     local configFile="/etc/mongod.conf"
     sed -i 's/127.0.0.1/0.0.0.0/g' $configFile
-    VALIDATE_STATUS " Mongodb configure "
+    VALIDATE_STATUS "Mongodb configure "
     systemctl restart mongod | tee -a $LOG_FILE
-    VALIDATE_STATUS " Mongodb Restart "
+    VALIDATE_STATUS "Mongodb Restart "
 }
 
 IS_ROOT_USER
