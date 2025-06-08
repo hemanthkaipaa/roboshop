@@ -8,12 +8,36 @@ INSTANCES=(mongodb mysql redis rabbitmq catalog user cart shipping payment dispa
 
 
 for i in "${INSTANCES[@]}" ; do
-    instanceID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --count 1 --instance-type t2.micro --security-group-ids sg-0c30101d8120551f5 --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query "Instances[0].InstanceId" --output text)
+    instanceID=$(aws ec2 run-instances --image-id $AMI_ID --count 1 --instance-type t2.micro --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query "Instances[0].InstanceId" --output text)
     if [ $i != "frontend" ] ; then
         IP=$(aws ec2 describe-instances --instance-ids $instanceID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
     else
         IP=$(aws ec2 describe-instances --instance-ids $instanceID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
     fi
     echo "$i IP Address : $IP"
+
+    SETUP_HOSTED_ZONE $IP $i
+
 done
 
+SETUP_HOSTED_ZONE(){
+    aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch "
+    {
+        "Comment": "Update record to add new CNAME record",
+        "Changes": [
+            {
+                "Action": "UPSERT",
+                "ResourceRecordSet": {
+                    "Name": "$2.$DOMAIN_NAME",
+                    "Type": "A",
+                    "TTL": 1,
+                    "ResourceRecords": [
+                        {
+                            "Value": $1
+                        }
+                    ]
+                }
+            }
+        ]
+    }"
+}
