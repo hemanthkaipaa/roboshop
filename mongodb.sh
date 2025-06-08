@@ -10,10 +10,6 @@ G="\e[32m"
 B="\e[34m"
 N="\e[0m"
 
-# mongodb repo file is created explicitly and copying to /etc/yum.repos.d/mongodb.repo
-
-cp mongodb.repo /etc/yum.repos.d/mongodb.repo
-
 #checking rootuser
 IS_ROOT_USER(){
     if [ $(id -u) == 0 ]; then
@@ -51,6 +47,8 @@ CONFIGURE_MONGODB_AND_RESTART(){
 }
 
 IS_ROOT_USER
+# mongodb repo file is created explicitly and copying to /etc/yum.repos.d/mongodb.repo
+cp mongodb.repo /etc/yum.repos.d/mongodb.repo
 INSTALL_MONGODB
 CONFIGURE_MONGODB_AND_RESTART
 
