@@ -1,0 +1,14 @@
+[Unit]
+Description = catalog Service
+
+[Service]
+User=roboshop
+Environment=MONGO=true
+// highlight-start
+Environment=MONGO_URL="mongodb://mongodb.hkdevops.site:27017/catalogue"
+// highlight-end
+ExecStart=/bin/node /app/server.js
+SyslogIdentifier=catalog
+
+[Install]
+WantedBy=multi-user.target
