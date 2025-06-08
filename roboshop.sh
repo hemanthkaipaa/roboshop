@@ -4,7 +4,7 @@ AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-0c30101d8120551f5"
 ZONE_ID="Z04194951UBY03IZ86RXM"
 DOMAIN_NAME="hkdevops.site"
-INSTANCES=(mongodb mysql redis rabbitmq catalog user cart shipping payment dispatch frontend)
+INSTANCES=(mongodb)
 
 SETUP_HOSTED_ZONE(){
     aws route53 change-resource-record-sets --hosted-zone-id $3 --change-batch '
