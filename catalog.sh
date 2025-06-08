@@ -42,7 +42,7 @@ VALIDATE_STATUS "Install nodejs"
 mkdir -p /app
 VALIDATE_STATUS "creating app directory"
 
-id roboshop
+id roboshop &>>$LOG_FILE
 if [ $? !=0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "system user" roboshop
     VALIDATE_STATUS "creating system user"
