@@ -3,7 +3,7 @@
 LOG_DIR=/var/log/roboshop
 SCRIPT_FILE=$(echo $0 | cut -d '.' -f1)
 LOG_FILE="$LOG_DIR/$SCRIPT_FILE.log"
-
+SCRIPT_DIR=$(pwd)
 #colors
 R="\e[31m"
 G="\e[32m"
@@ -54,7 +54,7 @@ VALIDATE_STATUS "Unzip catalog source zip"
 npm install &>>$LOG_FILE
 VALIDATE_STATUS "Install npm "
 
-cp catalog.service /etc/systemd/system/catalog.service
+cp "$SCRIPT_DIR/catalog.service" /etc/systemd/system/catalog.service
 VALIDATE_STATUS "copy catalog service"
 
 systemctl daemon-reload &>>$LOG_FILE
@@ -62,7 +62,7 @@ systemctl enable catalog &>>$LOG_FILE
 systemctl start catalog &>>$LOG_FILE
 VALIDATE_STATUS "catalog start" 
 
-cp mongodb.repo /etc/yum.repos.d/mongodb.repo
+cp "$SCRIPT_DIR/mongodb.repo" /etc/yum.repos.d/mongodb.repo
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE_STATUS "install mongo shell" 
 mongosh --host mongodb.hkdevops.site </app/db/master-data.js
