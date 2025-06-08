@@ -48,6 +48,7 @@ if [ $? !=0 ]; then
     VALIDATE_STATUS "creating system user"
 else
     VALIDATE_STATUS "system user already exist"
+fi
 
 cd /app
 rm -fr *
