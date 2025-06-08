@@ -7,14 +7,14 @@ DOMAIN_NAME="hkdevops.site"
 INSTANCES=(mongodb mysql redis rabbitmq catalog user cart shipping payment dispatch frontend)
 
 SETUP_HOSTED_ZONE(){
-    aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch "
+    aws route53 change-resource-record-sets --hosted-zone-id $3 --change-batch "
     {
-        "Comment": "Update record to add new CNAME record",
+        "Comment": "Creating hosted zones",
         "Changes": [
             {
                 "Action": "UPSERT",
                 "ResourceRecordSet": {
-                    "Name": "$2.$DOMAIN_NAME",
+                    "Name": "$2.$4",
                     "Type": "A",
                     "TTL": 1,
                     "ResourceRecords": [
@@ -38,7 +38,7 @@ for i in "${INSTANCES[@]}" ; do
     fi
     echo "$i IP Address : $IP"
 
-    SETUP_HOSTED_ZONE $IP $i
+    SETUP_HOSTED_ZONE $IP $i $ZONE_ID $DOMAIN_NAME
 
 done
 
