@@ -7,25 +7,25 @@ DOMAIN_NAME="hkdevops.site"
 INSTANCES=(mongodb mysql redis rabbitmq catalog user cart shipping payment dispatch frontend)
 
 SETUP_HOSTED_ZONE(){
-    aws route53 change-resource-record-sets --hosted-zone-id $3 --change-batch "
+    aws route53 change-resource-record-sets --hosted-zone-id $3 --change-batch '
     {
         "Comment": "Creating hosted zones",
         "Changes": [
             {
                 "Action": "UPSERT",
                 "ResourceRecordSet": {
-                    "Name": "$2.$4",
+                    "Name": "'$2'.'$4'",
                     "Type": "A",
                     "TTL": 1,
                     "ResourceRecords": [
                         {
-                            "Value": $1
+                            "Value": "'$1'"
                         }
                     ]
                 }
             }
         ]
-    }"
+    }'
 }
 
 
