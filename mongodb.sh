@@ -52,7 +52,7 @@ IS_ROOT_USER
 mkdir -p $LOG_DIR
 # mongodb repo file is created explicitly and copying to /etc/yum.repos.d/mongodb.repo
 cp mongodb.repo /etc/yum.repos.d/mongodb.repo
-INSTALL_MONGODB
+VALIDATE_AND_INSTALL_MONGODB
 CONFIGURE_MONGODB_AND_RESTART
 
 
