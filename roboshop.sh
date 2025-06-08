@@ -4,7 +4,7 @@ AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-0c30101d8120551f5"
 ZONE_ID="Z04194951UBY03IZ86RXM"
 DOMAIN_NAME="hkdevops.site"
-INSTANCES=$1
+INSTANCES=(mongodb catalog frontend)
 
 SETUP_HOSTED_ZONE(){
     aws route53 change-resource-record-sets --hosted-zone-id $3 --change-batch '
@@ -29,7 +29,7 @@ SETUP_HOSTED_ZONE(){
 }
 
 
-for i in "$INSTANCES" ; do
+for i in "${INSTANCES[@]}" ; do
     instanceID=$(aws ec2 run-instances --image-id $AMI_ID --count 1 --instance-type t2.micro --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query "Instances[0].InstanceId" --output text)
     if [ $i != "frontend" ] ; then
         IP=$(aws ec2 describe-instances --instance-ids $instanceID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
