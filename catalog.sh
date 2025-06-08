@@ -42,8 +42,12 @@ VALIDATE_STATUS "Install nodejs"
 mkdir -p /app
 VALIDATE_STATUS "creating app directory"
 
-useradd --system --home /app --shell /sbin/nologin --comment "system user" roboshop
-VALIDATE_STATUS "creating system user"
+id roboshop
+if [ $? !=0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "system user" roboshop
+    VALIDATE_STATUS "creating system user"
+else
+    VALIDATE_STATUS "system user already exist"
 
 cd /app
 rm -fr *
@@ -54,7 +58,7 @@ VALIDATE_STATUS "Unzip catalog source zip"
 npm install &>>$LOG_FILE
 VALIDATE_STATUS "Install npm "
 
-cp "$SCRIPT_DIR/catalog.service" /etc/systemd/system/catalog.service
+cp $SCRIPT_DIR/catalog.service /etc/systemd/system/catalog.service
 VALIDATE_STATUS "copy catalog service"
 
 systemctl daemon-reload &>>$LOG_FILE
@@ -62,7 +66,7 @@ systemctl enable catalog &>>$LOG_FILE
 systemctl start catalog &>>$LOG_FILE
 VALIDATE_STATUS "catalog start" 
 
-cp "$SCRIPT_DIR/mongodb.repo" /etc/yum.repos.d/mongodb.repo
+cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongodb.repo
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE_STATUS "install mongo shell" 
 mongosh --host mongodb.hkdevops.site </app/db/master-data.js
