@@ -30,7 +30,9 @@ VALIDATE_STATUS(){
     fi
 }
 
-INSTALL_MONGODB(){
+VALIDATE_AND_INSTALL_MONGODB(){
+    dnf search mongodb-org
+    VALIDATE_STATUS "mongodb"
     dnf install mongodb-org -y  &>>$LOG_FILE
     VALIDATE_STATUS "mongodb Install"
     systemctl enable mongod | tee -a $LOG_FILE
