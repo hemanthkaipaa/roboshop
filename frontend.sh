@@ -39,22 +39,22 @@ VALIDATE_STATUS "enable nginx "
 dnf install nginx -y &>>$LOG_FILE
 VALIDATE_STATUS "install nginx"
 
-systemctl enable nginx 
-systemctl start nginx 
+systemctl enable nginx  &>>$LOG_FILE
+systemctl start nginx  &>>$LOG_FILE
 VALIDATE_STATUS "system nginx enable, start "
 
 rm -rf /usr/share/nginx/html/* 
 VALIDATE_STATUS "removed all html files "
 
 cd /usr/share/nginx/html 
-wget https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
-unzip frontend-v3.zip
+wget https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &>>$LOG_FILE
+unzip frontend-v3.zip &>>$LOG_FILE
 VALIDATE_STATUS "unzip frontend "
 
 cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
 VALIDATE_STATUS "replaced nginx.conf "
 
-systemctl restart nginx
+systemctl restart nginx &>>$LOG_FILE
 VALIDATE_STATUS "nginx restart "
 
 
